@@ -1,4 +1,4 @@
-# 💭 SentimentLab — Full-Stack Sentiment Analysis Web App
+# SentimentLab — Full-Stack Sentiment Analysis Web App
 
 A Flask web application with full user authentication that lets users sign up, log in, analyze the sentiment of any text using VADER, and track their analysis history over time with interactive charts.
 
