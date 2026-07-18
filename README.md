@@ -4,12 +4,12 @@ A Flask web application with full user authentication that lets users sign up, l
 
 ## Features
 
-- 🔐 Secure user signup/login with hashed passwords (Werkzeug)
-- 🍪 Session-based authentication
-- 📊 Real-time sentiment analysis using VADER (positive/neutral/negative/compound scores)
-- 📈 Interactive charts (Chart.js) — doughnut chart per analysis, line chart for history trends
-- 🗃️ SQLite database storing users and their analysis history
-- 🎨 Vibrant, custom-designed UI
+- Secure user signup/login with hashed passwords (Werkzeug)
+- Session-based authentication
+- Real-time sentiment analysis using VADER (positive/neutral/negative/compound scores)
+- Interactive charts (Chart.js) — doughnut chart per analysis, line chart for history trends
+- SQLite database storing users and their analysis history
+- Vibrant, custom-designed UI
 
 ## Tech Stack
 
