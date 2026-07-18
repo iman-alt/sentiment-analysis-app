@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+{% block content %}
+<h1 class="page-title">Analysis History</h1>
+
+{% if analyses %}
+<div class="chart-box chart-box-wide">
+    <canvas id="historyChart"></canvas>
+</div>
+
+<table>
+    <tr><th>Text</th><th>Label</th><th>Positive</th><th>Neutral</th><th>Negative</th><th>Compound</th><th>Date</th></tr>
+    {% for a in analyses %}
+    <tr>
+        <td>{{ a.text[:50] }}{% if a.text|length > 50 %}...{% endif %}</td>
+        <td><span class="label-{{ a.label|lower }}">{{ a.label }}</span></td>
+        <td>{{ (a.positive * 100)|round(1) }}%</td>
+        <td>{{ (a.neutral * 100)|round(1) }}%</td>
+        <td>{{ (a.negative * 100)|round(1) }}%</td>
+        <td>{{ a.compound }}</td>
+        <td>{{ a.created_at[:16] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script>
+    const ctx = document.getElementById('historyChart');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ labels|tojson }},
+            datasets: [{
+                label: 'Compound Sentiment Score',
+                data: {{ compounds|tojson }},
+                borderColor: '#C2185B',
+                backgroundColor: 'rgba(194, 24, 91, 0.15)',
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#ff6f61'
+            }]
+        },
+        options: {
+            scales: { y: { min: -1, max: 1 } },
+            plugins: { legend: { labels: { color: '#333' } } }
+        }
+    });
+</script>
+{% else %}
+<p>No analyses yet. Go to your <a href="{{ url_for('dashboard') }}">dashboard</a> to analyze some text.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="page-title">Sentiment Dashboard</h1>
+
+<div class="form-card">
+    <h2>Analyze New Text</h2>
+    <form method="POST">
+        <label for="text">Paste your text</label>
+        <textarea id="text" name="text" rows="5" required placeholder="Type or paste text here..."></textarea>
+        <button type="submit" class="btn btn-primary">Analyze</button>
+    </form>
+</div>
+
+{% if result %}
+<div class="result-card">
+    <h2>Result: <span class="label-{{ result.label|lower }}">{{ result.label }}</span></h2>
+    <p class="analyzed-text">"{{ result.text }}"</p>
+
+    <div class="result-grid">
+        <div class="chart-box">
+            <canvas id="sentimentChart"></canvas>
+        </div>
+        <div class="score-breakdown">
+            <div class="score-row"><span>Positive</span><strong>{{ result.positive }}%</strong></div>
+            <div class="score-row"><span>Neutral</span><strong>{{ result.neutral }}%</strong></div>
+            <div class="score-row"><span>Negative</span><strong>{{ result.negative }}%</strong></div>
+            <div class="score-row compound"><span>Compound Score</span><strong>{{ result.compound }}</strong></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('sentimentChart');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Positive', 'Neutral', 'Negative'],
+            datasets: [{
+                data: [{{ result.positive }}, {{ result.neutral }}, {{ result.negative }}],
+                backgroundColor: ['#D6336C', '#F48FB1', '#880E4F'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            plugins: { legend: { position: 'bottom', labels: { color: '#333' } } }
+        }
+    });
+</script>
+{% endif %}
+
+{% if recent %}
+<div class="history-preview">
+    <h2>Recent Analyses</h2>
+    <table>
+        <tr><th>Text</th><th>Label</th><th>Compound</th><th>Date</th></tr>
+        {% for a in recent %}
+        <tr>
+            <td>{{ a.text[:40] }}{% if a.text|length > 40 %}...{% endif %}</td>
+            <td><span class="label-{{ a.label|lower }}">{{ a.label }}</span></td>
+            <td>{{ a.compound }}</td>
+            <td>{{ a.created_at[:16] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('history') }}" class="btn btn-secondary">View Full History</a>
+</div>
+{% endif %}
+{% endblock %} 

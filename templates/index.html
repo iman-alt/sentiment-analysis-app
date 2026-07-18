@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+<div class="hero">
+    <h1>Analyze Sentiment Instantly</h1>
+    <p>Paste any text and get an instant breakdown of positive, negative, and neutral tone — powered by VADER sentiment analysis.</p>
+    <div class="hero-buttons">
+        <a href="{{ url_for('signup') }}" class="btn btn-primary">Get Started</a>
+        <a href="{{ url_for('login') }}" class="btn btn-secondary">Log In</a>
+    </div>
+</div>
+{% endblock %}
